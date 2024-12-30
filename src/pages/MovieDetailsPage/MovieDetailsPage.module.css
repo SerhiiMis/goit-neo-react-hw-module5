@@ -5,6 +5,7 @@
 .button {
   margin: 14px;
 }
+
 .detailsWrapper {
   display: flex;
   gap: 2rem;
@@ -23,6 +24,12 @@
 .title {
   font-size: 2rem;
   margin-bottom: 1rem;
+}
+
+.userScore,
+.genres {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
 }
 
 .overview {

@@ -6,13 +6,13 @@ import styles from "./MoviesPage.module.css";
 const MoviesPage = () => {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
+  const [hasSearched, setHasSearched] = useState(false);
 
   const handleSearch = () => {
+    if (query.trim() === "") return;
     searchMovies(query).then((results) => {
       setMovies(results);
-      if (results.length === 0) {
-        setQuery("");
-      }
+      setHasSearched(true);
     });
   };
 
@@ -38,7 +38,10 @@ const MoviesPage = () => {
           Search
         </button>
       </div>
-      <MovieList movies={movies} />
+      {hasSearched && movies.length === 0 && (
+        <p>No movies found. Try a different search query.</p>
+      )}
+      {movies.length > 0 && <MovieList movies={movies} />}
     </div>
   );
 };

@@ -14,6 +14,8 @@ const MovieDetailsPage = () => {
 
   if (!movie) return <div>Loading...</div>;
 
+  const genres = movie.genres.map((genre) => genre.name).join(", ");
+
   return (
     <div className={styles.container}>
       <button className={styles.button} onClick={() => navigate(-1)}>
@@ -27,6 +29,12 @@ const MovieDetailsPage = () => {
         />
         <div className={styles.detailsContent}>
           <h1 className={styles.title}>{movie.title}</h1>
+          <p className={styles.userScore}>
+            <strong>User Score:</strong> {movie.vote_average}/10
+          </p>
+          <p className={styles.genres}>
+            <strong>Genres:</strong> {genres}
+          </p>
           <p className={styles.overview}>{movie.overview}</p>
           <h3>Additional Information</h3>
           <ul className={styles.additionalLinks}>
