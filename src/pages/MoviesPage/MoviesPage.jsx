@@ -1,19 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { searchMovies } from "../../utilities/api";
 import MovieList from "../../components/MovieList/MovieList";
 import styles from "./MoviesPage.module.css";
+import { useSearchParams } from "react-router-dom";
 
 const MoviesPage = () => {
-  const [query, setQuery] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get("query") || "";
   const [movies, setMovies] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
 
+  useEffect(() => {
+    if (query) {
+      searchMovies(query).then((results) => {
+        setMovies(results);
+        setHasSearched(true);
+      });
+    }
+  }, [query]);
+
   const handleSearch = () => {
-    if (query.trim() === "") return;
-    searchMovies(query).then((results) => {
-      setMovies(results);
-      setHasSearched(true);
-    });
+    if (query.trim() !== "") {
+      setSearchParams({ query });
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -29,7 +38,7 @@ const MoviesPage = () => {
         <input
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => setSearchParams({ query: e.target.value })}
           onKeyDown={handleKeyDown}
           placeholder="Enter movie title"
           className={styles.input}
